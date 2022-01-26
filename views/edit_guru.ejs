@@ -1,0 +1,33 @@
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<div style="padding: 20">
+    <h1>Edit Guru </h1>
+    <input type="text" placeholder="Nama Guru" id="input_name" value="<%=name%>"> <br /><br />
+    <input type="text" placeholder="Mapel Guru" id="input_mapel" value="<%=mapel%>"><br /><br />
+    <input type="button" id="save_btn" value="Simpan" onclick="edit_guru()">
+    <a href="/">
+        <input type="button" id="back_btn" value="Back" >
+    </a>
+</div>
+
+<script>
+    function edit_guru() {
+        const name = document.getElementById("input_name").value
+        const mapel = document.getElementById("input_mapel").value
+        $.ajax({
+            url: 'http://localhost:3000/edit_guru',
+            method: "POST",
+            data: {
+                id: '<%= id %>',
+                name: name,
+                mapel: mapel,
+            },
+            success: function (result) {
+                if (result.success) {
+                    alert("Data berhasil diperbarui")
+                } else {
+                    alert("Gagal")
+                }
+            }
+        })
+    }
+</script>

@@ -1,0 +1,49 @@
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<div style="padding: 20">
+    <h1>Data Guru</h1>
+    <a href="/tambah_guru">+ Tambah Guru</a>
+    <table class="table" id="table_guru">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Mapel</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const url = "http://localhost:3000/"
+        $.ajax({
+            url: url,
+            method: "POST",
+            resultType: "JSON",
+            success: function (results) {
+                const table = document.getElementById("table_guru")
+                const result_data = results.data
+                for (var i = 0; i < result_data.length; i++) {
+                    var data = result_data[i]
+                    console.log(data)
+                    var row = table.insertRow(i + 1)
+                    var no = row.insertCell(0)
+                    var nama = row.insertCell(1)
+                    var nik = row.insertCell(2)
+                    var action = row.insertCell(3)
+                    no.innerHTML = i + 1
+                    nik.innerHTML = data.nik
+                    nama.innerHTML = data.nama
+                    const params_get = `id=${data.Id_pendaftaran}&nik=${data.nik}&nama=${data.nama}`
+                    action.innerHTML = `<a href='/edit_guru?${params_get}'>Edit</a> 
+                    |<a href='/delete_guru?id=${data.Id_pendaftaran}'>Delete</a> `
+                }
+            }
+        })
+    })
+</script>
